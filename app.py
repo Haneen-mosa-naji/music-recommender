@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request
 from recommender import recommend_by_title
 import pandas as pd
+import os  # لإحضار رقم المنفذ من متغيرات البيئة
 
 app = Flask(__name__)
 df = pd.read_csv("arabic_music_data.csv")
@@ -22,4 +23,5 @@ def recom():
     return render_template('index.html', names=song_titles, songs=recommendations)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 5000))  # استخدم المنفذ من Render أو 5000 افتراضيًا
+    app.run(host='0.0.0.0', port=port)
